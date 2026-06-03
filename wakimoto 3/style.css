@@ -1,0 +1,18 @@
+/*
+Theme Name: Wakimoto Shokai — SoundAssist
+Theme URI: https://wakimotocorp.com/
+Author: 脇本商会 / SoundAssist
+Author URI: https://wakimotocorp.com/
+Description: 脇本商会 / SoundAssist 公式サイト用のカスタムクラシックテーマ。機材レンタル・映像制作&広告・輸入代理&正規代理店（DAS Audio 日本総代理店）の3事業を軸に、プロオーディオ・システムインテグレーターらしい精密で重厚なデザインを実装しています。Customizer から連絡先・ヒーロー文言・事業リンクなどを編集できます。
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.5
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: wakimoto
+Tags: business, custom-colors, custom-logo, custom-menu, featured-images, footer-widgets, full-width-template, translation-ready, blog, two-columns, right-sidebar, threaded-comments
+
+このファイルには WordPress に必須のテーマ情報のみを記載しています。
+実際のスタイルは assets/css/main.css に記述し、functions.php から読み込んでいます。
+*/

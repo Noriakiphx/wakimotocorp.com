@@ -1,0 +1,74 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
+	"settings": {
+		"appearanceTools": true,
+		"layout": {
+			"contentSize": "760px",
+			"wideSize": "1100px"
+		},
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"custom": true,
+			"palette": [
+				{ "slug": "ink", "color": "#0c0d10", "name": "インク（背景）" },
+				{ "slug": "ink-2", "color": "#111319", "name": "インク2" },
+				{ "slug": "ink-3", "color": "#181b22", "name": "インク3" },
+				{ "slug": "paper", "color": "#f3f1ea", "name": "ペーパー" },
+				{ "slug": "foreground", "color": "#e9e8e4", "name": "本文" },
+				{ "slug": "foreground-dim", "color": "#9b9da5", "name": "本文（淡）" },
+				{ "slug": "accent", "color": "#ff3a1f", "name": "アクセント" },
+				{ "slug": "accent-2", "color": "#ff6a45", "name": "アクセント2" }
+			]
+		},
+		"typography": {
+			"fluid": true,
+			"customFontSize": true,
+			"fontFamilies": [
+				{
+					"fontFamily": "\"Zen Kaku Gothic New\", system-ui, -apple-system, \"Hiragino Kaku Gothic ProN\", \"Noto Sans JP\", sans-serif",
+					"slug": "sans",
+					"name": "本文ゴシック"
+				},
+				{
+					"fontFamily": "\"Archivo\", system-ui, sans-serif",
+					"slug": "display",
+					"name": "ディスプレイ"
+				},
+				{
+					"fontFamily": "\"IBM Plex Mono\", ui-monospace, monospace",
+					"slug": "mono",
+					"name": "モノスペース"
+				}
+			],
+			"fontSizes": [
+				{ "slug": "small", "size": "0.86rem", "name": "小" },
+				{ "slug": "medium", "size": "1.04rem", "name": "中" },
+				{ "slug": "large", "size": "1.4rem", "name": "大" },
+				{ "slug": "x-large", "size": "2.2rem", "name": "特大" }
+			]
+		},
+		"spacing": {
+			"units": [ "px", "em", "rem", "%", "vw" ]
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "#0c0d10",
+			"text": "#e9e8e4"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--sans)",
+			"lineHeight": "1.85"
+		},
+		"elements": {
+			"link": {
+				"color": { "text": "#ff3a1f" }
+			},
+			"h1": { "typography": { "fontFamily": "var(--wp--preset--font-family--display)", "fontWeight": "800" } },
+			"h2": { "typography": { "fontFamily": "var(--wp--preset--font-family--display)", "fontWeight": "800" } },
+			"h3": { "typography": { "fontFamily": "var(--wp--preset--font-family--display)", "fontWeight": "700" } }
+		}
+	}
+}

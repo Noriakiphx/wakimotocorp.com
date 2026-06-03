@@ -1,0 +1,44 @@
+/* =============================================================
+   Wakimoto — editor-style.css
+   ブロックエディタ（投稿・固定ページ編集画面）の見た目を
+   フロント側のタイポグラフィに近づけるための簡易スタイル
+   ============================================================= */
+
+.editor-styles-wrapper {
+	font-family: "Zen Kaku Gothic New", system-ui, -apple-system, "Hiragino Kaku Gothic ProN", sans-serif;
+	line-height: 2;
+	font-size: 17px;
+	color: #1c1e24;
+}
+
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4 {
+	font-family: "Archivo", "Zen Kaku Gothic New", system-ui, sans-serif;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	line-height: 1.25;
+}
+
+.editor-styles-wrapper h2 {
+	padding-bottom: 0.3em;
+	border-bottom: 1px solid rgba(15, 17, 21, 0.12);
+}
+
+.editor-styles-wrapper a { color: #ff3a1f; }
+
+.editor-styles-wrapper blockquote {
+	border-left: 3px solid #ff3a1f;
+	padding-left: 20px;
+	color: #565862;
+	font-style: italic;
+}
+
+.editor-styles-wrapper code {
+	font-family: "IBM Plex Mono", ui-monospace, monospace;
+	background: #f0eee7;
+	padding: 0.15em 0.4em;
+	border-radius: 4px;
+	color: #c0341c;
+}
