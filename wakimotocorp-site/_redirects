@@ -1,0 +1,15 @@
+# 旧WordPress URL → 新URL（301恒久リダイレクト）
+# 重要: Google Search Console / 旧 sitemap.xml で「実際にインデックスされている全URL」を
+#       棚卸しし、ここに追記してください。これを怠るとSEO評価が失われます。
+
+# 取扱商品（page_id クエリ）
+/  page_id=764  /products  301
+
+# 固定ページ
+/会社概要/                /company    301
+/業務内容/                /services   301
+/プライバシーポリシー/      /privacy    301
+/elementor-515/           /contact    301
+
+# 個別商品ページ（WooCommerce）
+/product/*                /products   301

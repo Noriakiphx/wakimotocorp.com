@@ -1,0 +1,19 @@
+# 静的サイト（ビルド不要）の Netlify 設定
+[build]
+  publish = "."
+  command = ""
+
+# セキュリティヘッダ（全ページ）
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# 静的アセットは長期キャッシュ
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

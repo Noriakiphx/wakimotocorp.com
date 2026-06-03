@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://wakimotocorp.com/sitemap.xml
