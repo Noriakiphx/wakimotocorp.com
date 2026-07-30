@@ -1,0 +1,10 @@
+
+# Node.js
+node_modules/
+
+# Local Supabase state
+supabase/.temp/
+.env
+.env.local
+supabase/.env
+supabase/functions/.env
