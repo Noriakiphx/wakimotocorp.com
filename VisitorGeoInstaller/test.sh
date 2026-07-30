@@ -16,6 +16,7 @@ test -f supabase/migrations/202607300002_visitor_geo_scoring.sql
 test -f supabase/migrations/202607300003_visitor_geo_company_detection.sql
 test -f supabase/migrations/202607300004_visitor_geo_heatmap.sql
 test -f supabase/migrations/202607300005_visitor_geo_notifications.sql
+test -f supabase/migrations/20260730074419_phase03_dashboard_analytics_ingest.sql
 
 echo "[3/6] Privacy checks"
 if grep -RInE \
@@ -48,6 +49,9 @@ echo "[6/6] Installer packages"
 for package in VisitorGeoInstaller/packages/*.sh; do
   bash "$package"
 done
+
+grep -q "visitor-analytics.js" wakimotocorp-site/index.html
+grep -q "VGI_DASHBOARD_TOKEN" supabase/functions/visitor-dashboard/index.ts
 
 echo
 echo "PASS: Static validation completed."
