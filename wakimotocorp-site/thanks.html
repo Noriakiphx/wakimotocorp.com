@@ -4,4 +4,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;900&display=swap" rel="stylesheet">
 <style>body{font-family:"Noto Sans JP",sans-serif;background:#f7f5f1;color:#15110f;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center;padding:24px}
 h1{font-weight:900;font-size:30px}p{color:#6f6a63;margin:14px 0 28px}a{display:inline-block;padding:13px 24px;background:#15110f;color:#fff;border-radius:10px;text-decoration:none;font-weight:700}</style>
-</head><body><div><h1>送信が完了しました</h1><p>お問い合わせありがとうございます。通常1〜2営業日以内にご返信いたします。</p><a href="/">トップへ戻る</a></div></body></html>
+</head><body><div><h1>送信が完了しました</h1><p>お問い合わせありがとうございます。通常1〜2営業日以内にご返信いたします。</p><a href="/">トップへ戻る</a></div>
+<script src="/assets/js/visitor-geo.js" defer></script>
+<script src="/assets/js/visitor-heatmap.js" defer></script>
+<script src="/assets/js/visitor-analytics.js" defer></script>
+<script>
+  addEventListener("wakimoto:vgi-consent-changed", (event) => {
+    if (!event.detail?.analytics) return;
+    window.VisitorGeoAnalytics?.track?.("contact_completed", {
+      category: "conversion",
+      converted: true,
+    });
+  }, { once: true });
+  addEventListener("DOMContentLoaded", () => {
+    if (!window.WakimotoVisitorGeo?.getConsent?.().analytics) return;
+    window.VisitorGeoAnalytics?.track?.("contact_completed", {
+      category: "conversion",
+      converted: true,
+    });
+  }, { once: true });
+</script>
+</body></html>

@@ -1,7 +1,15 @@
 # 静的サイト（ビルド不要）の Netlify 設定
 [build]
+  base = "wakimotocorp-site"
   publish = "."
   command = ""
+
+# 公開URLを https://wakimotocorp.com に統一
+[[redirects]]
+  from = "https://www.wakimotocorp.com/*"
+  to = "https://wakimotocorp.com/:splat"
+  status = 301
+  force = true
 
 # セキュリティヘッダ（全ページ）
 [[headers]]
@@ -17,3 +25,9 @@
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# 解析スクリプトは更新を短時間で反映できるようにする
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
