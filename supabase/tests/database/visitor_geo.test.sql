@@ -2,7 +2,7 @@ begin;
 
 create extension if not exists pgtap;
 
-select plan(18);
+select plan(23);
 
 select has_table(
   'public',
@@ -79,6 +79,102 @@ select has_function(
   'calculate_visitor_score',
   array['uuid'],
   'score calculation exists'
+);
+
+select has_function(
+  'public',
+  'vgi_dashboard_rollup',
+  array['timestamp with time zone'],
+  'dashboard rollup exists'
+);
+
+insert into public.vgi_visitors (
+  id, visitor_key, last_seen_at, country_code, region_name, city
+) values
+  (
+    '10000000-0000-0000-0000-000000000001',
+    'dashboard-test-1',
+    now(),
+    'JP',
+    'Tokyo',
+    'Chiyoda'
+  ),
+  (
+    '10000000-0000-0000-0000-000000000002',
+    'dashboard-test-2',
+    now(),
+    'JP',
+    'Tokyo',
+    'Chiyoda'
+  );
+
+insert into public.vgi_sessions (
+  id, session_key, visitor_id, started_at, last_activity_at,
+  duration_seconds, converted
+) values
+  (
+    '20000000-0000-0000-0000-000000000001',
+    'dashboard-session-1',
+    '10000000-0000-0000-0000-000000000001',
+    now(),
+    now(),
+    10,
+    true
+  ),
+  (
+    '20000000-0000-0000-0000-000000000002',
+    'dashboard-session-2',
+    '10000000-0000-0000-0000-000000000002',
+    now(),
+    now(),
+    20,
+    false
+  );
+
+insert into public.vgi_page_views (
+  visitor_id, session_id, event_key, occurred_at, page_path
+) values
+  (
+    '10000000-0000-0000-0000-000000000001',
+    '20000000-0000-0000-0000-000000000001',
+    'dashboard-page-1',
+    now(),
+    '/dashboard-test'
+  ),
+  (
+    '10000000-0000-0000-0000-000000000002',
+    '20000000-0000-0000-0000-000000000002',
+    'dashboard-page-2',
+    now(),
+    '/dashboard-test'
+  );
+
+select is(
+  (public.vgi_dashboard_rollup(now() - interval '1 day')
+    -> 'summary' ->> 'sessions')::bigint,
+  2::bigint,
+  'dashboard rollup counts every session'
+);
+
+select is(
+  (public.vgi_dashboard_rollup(now() - interval '1 day')
+    -> 'summary' ->> 'conversionRate')::numeric,
+  50.0::numeric,
+  'dashboard rollup calculates conversion rate over the complete window'
+);
+
+select is(
+  (public.vgi_dashboard_rollup(now() - interval '1 day')
+    -> 'summary' ->> 'averageDurationSeconds')::numeric,
+  15::numeric,
+  'dashboard rollup calculates average duration over the complete window'
+);
+
+select is(
+  (public.vgi_dashboard_rollup(now() - interval '1 day')
+    -> 'topPages' -> 0 ->> 'value')::bigint,
+  2::bigint,
+  'dashboard rollup ranks pages over the complete window'
 );
 
 select has_function(

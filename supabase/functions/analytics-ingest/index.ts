@@ -1,34 +1,48 @@
+// deno-lint-ignore no-import-prefix
 import { createClient } from "npm:@supabase/supabase-js@2.57.4";
 import { validatePayload } from "./validation.ts";
-import { upsertVisitorSession, refreshSessionCounts } from "./upsert.ts";
+import { refreshSessionCounts, upsertVisitorSession } from "./upsert.ts";
 import { recordPageView } from "./pageview.ts";
 import { recordEvent } from "./events.ts";
-import { allowed } from "./rate-limit.ts";
 import { cors, json } from "./response.ts";
 
 Deno.serve(async (request) => {
-  if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors(request) });
-  if (request.method !== "POST") return json(request, { error: "Method not allowed" }, 405);
+  if (request.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: cors(request) });
+  }
+  if (request.method !== "POST") {
+    return json(request, { error: "Method not allowed" }, 405);
+  }
   const origin = request.headers.get("origin");
   if (origin && cors(request)["access-control-allow-origin"] === "null") {
     return json(request, { error: "Origin not allowed" }, 403);
   }
-  if (!(await allowed(request))) return json(request, { error: "Rate limited" }, 429);
-
   const url = Deno.env.get("SUPABASE_URL");
-  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? Deno.env.get("SUPABASE_SECRET_KEY");
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ??
+    Deno.env.get("SUPABASE_SECRET_KEY");
   if (!url || !key) return json(request, { error: "Service unavailable" }, 503);
 
+  let payload: ReturnType<typeof validatePayload>;
   try {
     const body = await request.text();
-    if (body.length > 32768) return json(request, { error: "Body too large" }, 413);
-    const payload = validatePayload(JSON.parse(body));
+    if (body.length > 32768) {
+      return json(request, { error: "Body too large" }, 413);
+    }
+    payload = validatePayload(JSON.parse(body));
+  } catch (error) {
+    console.warn(error instanceof Error ? error.message : error);
+    return json(request, { error: "Invalid analytics request" }, 400);
+  }
+
+  try {
     const client = createClient(url, key, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
     const context = await upsertVisitorSession(client, payload);
 
-    if (payload.type === "pageview") await recordPageView(client, context, payload);
+    if (payload.type === "pageview") {
+      await recordPageView(client, context, payload);
+    }
     if (payload.type === "event" || payload.type === "engagement") {
       await recordEvent(client, context, payload);
     }
@@ -57,6 +71,6 @@ Deno.serve(async (request) => {
     return json(request, { ok: true, accepted: payload.type }, 202);
   } catch (error) {
     console.error(error instanceof Error ? error.message : error);
-    return json(request, { error: "Invalid analytics request" }, 400);
+    return json(request, { error: "Analytics service failed" }, 500);
   }
 });

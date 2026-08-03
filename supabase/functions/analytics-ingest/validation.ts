@@ -1,8 +1,15 @@
 import type { AnalyticsPayload, AnalyticsType } from "./types.ts";
 
-const TYPES = new Set<AnalyticsType>(["pageview", "engagement", "event", "heatmap"]);
+const TYPES = new Set<AnalyticsType>([
+  "pageview",
+  "engagement",
+  "event",
+  "heatmap",
+]);
 const DEVICES = new Set(["desktop", "tablet", "mobile", "unknown"]);
 const POINTS = new Set(["click", "scroll", "attention", "exit"]);
+const MAX_PAST_AGE_MS = 24 * 60 * 60 * 1000;
+const MAX_FUTURE_SKEW_MS = 5 * 60 * 1000;
 
 function object(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -12,6 +19,7 @@ function object(value: unknown): Record<string, unknown> {
 
 function text(value: unknown, max: number): string | undefined {
   if (typeof value !== "string") return undefined;
+  // deno-lint-ignore no-control-regex
   const result = value.replace(/[\u0000-\u001f\u007f]/g, "").trim();
   return result ? result.slice(0, max) : undefined;
 }
@@ -27,7 +35,10 @@ function number(value: unknown, min: number, max: number): number | undefined {
     : undefined;
 }
 
-export function validatePayload(raw: unknown): AnalyticsPayload {
+export function validatePayload(
+  raw: unknown,
+  now = Date.now(),
+): AnalyticsPayload {
   const input = object(raw);
   const type = text(input.type, 24) as AnalyticsType | undefined;
   const visitorKey = id(input.visitorKey);
@@ -38,14 +49,23 @@ export function validatePayload(raw: unknown): AnalyticsPayload {
     throw new Error("visitorKey, sessionKey and eventKey are required");
   }
 
-  const occurredAt = text(input.occurredAt, 64) ?? new Date().toISOString();
-  if (Number.isNaN(Date.parse(occurredAt))) throw new Error("Invalid occurredAt");
+  const occurredAt = text(input.occurredAt, 64) ?? new Date(now).toISOString();
+  const occurredAtMs = Date.parse(occurredAt);
+  if (
+    Number.isNaN(occurredAtMs) ||
+    occurredAtMs < now - MAX_PAST_AGE_MS ||
+    occurredAtMs > now + MAX_FUTURE_SKEW_MS
+  ) {
+    throw new Error("Invalid occurredAt");
+  }
 
   const geo = object(input.geo);
   const device = object(input.device);
   const attribution = object(input.attribution);
   const metadata = object(input.metadata);
-  if (JSON.stringify(metadata).length > 4096) throw new Error("Metadata too large");
+  if (JSON.stringify(metadata).length > 4096) {
+    throw new Error("Metadata too large");
+  }
 
   const deviceClass = text(device.deviceClass, 16) ?? "unknown";
   const pointType = text(input.pointType, 24);

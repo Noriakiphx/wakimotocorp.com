@@ -17,6 +17,7 @@ test -f supabase/migrations/202607300003_visitor_geo_company_detection.sql
 test -f supabase/migrations/202607300004_visitor_geo_heatmap.sql
 test -f supabase/migrations/202607300005_visitor_geo_notifications.sql
 test -f supabase/migrations/20260730074419_phase03_dashboard_analytics_ingest.sql
+test -f supabase/migrations/202608030001_dashboard_rollup.sql
 
 echo "[3/6] Privacy checks"
 if grep -RInE \
@@ -52,6 +53,8 @@ done
 
 grep -q "visitor-analytics.js" wakimotocorp-site/index.html
 grep -q "VGI_DASHBOARD_TOKEN" supabase/functions/visitor-dashboard/index.ts
+grep -q "rateLimit" \
+  wakimotocorp-site/netlify/edge-functions/analytics-ingest-proxy.ts
 
 echo
 echo "PASS: Static validation completed."
