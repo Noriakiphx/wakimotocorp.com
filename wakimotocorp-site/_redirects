@@ -1,15 +1,15 @@
-# 旧WordPress URL → 新URL（301恒久リダイレクト）
-# 重要: Google Search Console / 旧 sitemap.xml で「実際にインデックスされている全URL」を
-#       棚卸しし、ここに追記してください。これを怠るとSEO評価が失われます。
-
-# 取扱商品（page_id クエリ）
-/  page_id=764  /products  301
-
-# 固定ページ
-/会社概要/                /company    301
-/業務内容/                /services   301
-/プライバシーポリシー/      /privacy    301
-/elementor-515/           /contact    301
-
-# 個別商品ページ（WooCommerce）
-/product/*                /products   301
+# Legacy WordPress paths to the current static corporate site.
+/                       page_id=764    /#brands        301
+/会社概要/                  /#company       301
+/業務内容/                  /#services      301
+/elementor-515/             /#contact       301
+/プライバシーポリシー/      /privacy.html   301
+/%E4%BC%9A%E7%A4%BE%E6%A6%82%E8%A6%81/                  /#company       301
+/%E6%A5%AD%E5%8B%99%E5%86%85%E5%AE%B9/                  /#services      301
+/%E3%83%97%E3%83%A9%E3%82%A4%E3%83%90%E3%82%B7%E3%83%BC%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/      /privacy.html   301
+/privacy                    /privacy.html   301
+/company                    /#company       301
+/services                   /#services      301
+/products                   /#brands        301
+/contact                    /#contact       301
+/product/*                  /#brands        301

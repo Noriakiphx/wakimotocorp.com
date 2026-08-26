@@ -121,7 +121,7 @@ while ( have_posts() ) :
 							<?php else : ?>
 								<span class="biz-card__ph" aria-hidden="true">
 									<?php wakimoto_array_motif(); ?>
-									<span class="biz-card__ph-label">PHOTO</span>
+									<span class="screen-reader-text"><?php echo esc_html( $service['title'] ); ?></span>
 								</span>
 							<?php endif; ?>
 							<span class="service-row__no"><?php echo esc_html( $s['no'] ); ?></span>

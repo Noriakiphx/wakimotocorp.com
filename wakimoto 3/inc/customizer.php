@@ -170,7 +170,7 @@ function wakimoto_customize_register( $wp_customize ) {
 		),
 		3 => array(
 			'title' => '輸入代理事業',
-			'desc'  => 'DAS・LYNX・IDER ほか、海外ブランドの輸入代理を行っています。取扱ブランドは専用サイトでご覧いただけます。',
+			'desc'  => 'DAS Audio 日本総代理店として、海外メーカー製品の輸入・代理店事業を行っています。詳細な取扱製品はお問い合わせください。',
 			'url'   => '',
 			'label' => '取扱ブランドを見る',
 		),
@@ -284,7 +284,7 @@ function wakimoto_customize_register( $wp_customize ) {
 	);
 	wakimoto_add_field( $wp_customize, 'wakimoto_footer', 'wakimoto_company_name', __( '会社名', 'wakimoto' ), '脇本商会 / SoundAssist' );
 	wakimoto_add_field( $wp_customize, 'wakimoto_footer', 'wakimoto_company_tagline', __( 'フッターの一言', 'wakimoto' ), '機材レンタル・映像制作&広告・輸入代理&正規代理店' );
-	wakimoto_add_field( $wp_customize, 'wakimoto_footer', 'wakimoto_company_address', __( '住所', 'wakimoto' ), '〒367-0000 埼玉県本庄市', 'textarea', __( '※ 番地以降はご確認のうえご記入ください。', 'wakimoto' ) );
+	wakimoto_add_field( $wp_customize, 'wakimoto_footer', 'wakimoto_company_address', __( '住所', 'wakimoto' ), '〒367-0041 埼玉県本庄市駅南2-1-25 ふらわあビル3-A', 'textarea' );
 	wakimoto_add_field( $wp_customize, 'wakimoto_footer', 'wakimoto_company_phone', __( '電話番号', 'wakimoto' ), '0495-37-4806' );
 	wakimoto_add_field( $wp_customize, 'wakimoto_footer', 'wakimoto_company_email', __( 'メールアドレス', 'wakimoto' ), 'info@wakimotocorp.com', 'email' );
 	wakimoto_add_field( $wp_customize, 'wakimoto_footer', 'wakimoto_copyright', __( 'コピーライト表記', 'wakimoto' ), '脇本商会' );

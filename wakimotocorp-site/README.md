@@ -1,55 +1,37 @@
-# 脇本商会 — 静的サイト デプロイ一式
+# WAKIMOTO CORP Static Site
 
-WordPress を外して GitHub + Netlify で運用するための、デプロイ可能な雛形です。
+WAKIMOTO CORP公式WebサイトのNetlify公開用静的サイトです。ビルド工程は不要で、`wakimotocorp-site` ディレクトリを公開ディレクトリとして配信します。
 
-## 含まれるもの
-- `index.html` / `thanks.html`（送信完了）/ `404.html`
-- `netlify.toml`（ビルド不要・セキュリティヘッダ）
-- `_redirects`（旧→新URLの301。**要編集**）
-- `robots.txt` / `images/`（ロゴ配置先）
+## Files
 
-## 自動化済み / 手動が必要な箇所
-- ✅ **デプロイ一式（このフォルダ）= ドラッグ&ドロップで即公開できる状態**
-- 🟡 ① GitHub への push（生成環境が外部ネット遮断のため、ここだけ手動）
-- 🟡 ② DNS 切替（レジストラ操作＋稼働中メール保護のため手動。値は下記C）
+- `index.html`: 企業サイト本体、Netlify Forms対応のお問い合わせフォーム
+- `thanks.html`: フォーム送信完了ページ
+- `404.html`: カスタム404ページ
+- `privacy.html`: プライバシーポリシー
+- `robots.txt`: クロール設定とsitemap参照
+- `sitemap.xml`: 公開URL一覧
+- `_redirects`: 旧WordPress URLから現行静的サイトへの301リダイレクト
+- `netlify.toml`: publish設定とセキュリティヘッダ
 
----
+## Netlify
 
-## A. 最速で公開（Git不要・Netlify Drop）
-1. https://app.netlify.com/drop を開く
-2. `wakimotocorp-site.zip`（またはフォルダ）をブラウザにドラッグ&ドロップ
-3. 数十秒で `https://<ランダム>.netlify.app` が公開 → 動作確認
+Netlifyのサイト設定では以下を指定します。
 
-## B. 推奨運用（GitHub + 自動デプロイ）
-```bash
-cd wakimotocorp-site
-git init && git add -A && git commit -m "init: static site"
-git branch -M main
-git remote add origin https://github.com/<あなた>/wakimotocorp-site.git
-git push -u origin main
-```
-Netlify → Add new site → Import from Git → リポジトリ選択 → **Build command 空 / Publish ディレクトリ `.`** → Deploy。
-以後 `main` への push で自動再デプロイ。
+- Base directory: `wakimotocorp-site`
+- Build command: 空
+- Publish directory: `.`
 
-## C. 独自ドメイン（wakimotocorp.com）
-**メール（info@wakimotocorp.com）を守るため、DNSはレジストラに残し A/CNAME だけ向けます。**
-レジストラ（お名前.com 等）の設定:
-- A レコード: `@`（wakimotocorp.com） → `75.2.60.5`（Netlifyロードバランサ。**実値はNetlifyのドメイン設定に表示されるものを正とする**）
-- CNAME: `www` → `<あなたのサイト>.netlify.app`
-- **MX / SPF / TXT（メール系）は変更せず温存**
+お問い合わせフォームは `index.html` の `name="contact"` フォームで `data-netlify="true"` を指定しています。Netlifyへのデプロイ後、管理画面の Forms で受信を確認できます。
 
-Netlify 側で primary domain を設定 → SSL（Let's Encrypt）自動発行 → **"Force HTTPS" を ON**。
+## Domain
 
-## D. 本番切替の順番（重要）
-1. レジストラで該当レコードの TTL を 300秒 に下げる
-2. netlify.app で全ページを最終確認
-3. A / CNAME を Netlify の値に変更
-4. 反映と伝播を確認するまで **WordPress は止めない**（フォールバック）
-5. 問題なければ WordPress を解約
+本番URLは `https://wakimotocorp.com/` を前提に、canonical、robots.txt、sitemap.xml、OGP URLを設定しています。
 
-## E. 公開後のTODO
-- `_redirects` を Search Console の全URLで完成させる（SEO維持の肝）
-- `sitemap.xml` を生成し `robots.txt` のパスに配置
-- `images/` にロゴ（`logo.png` / `og.png`）を配置
-- 会社概要の住所など本文を実情報に更新
-- Netlify 管理画面 → Forms で受信確認＋通知メール設定
+## Site Facts
+
+- 会社サイト上の主表記: `WAKIMOTO CORP`
+- 併記: `脇本商会 / SoundAssist`
+- 所在地: `〒367-0041 埼玉県本庄市駅南2-1-25 ふらわあビル3-A`
+- 電話番号: `0495-37-4806`
+- メール: `info@wakimotocorp.com`
+- ブランド表記: `DAS Audio 日本総代理店`
