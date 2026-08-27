@@ -88,7 +88,7 @@ $hero_s_url     = wakimoto_get_mod( 'wakimoto_hero_secondary_url' );
 							<?php else : ?>
 								<span class="biz-card__ph" aria-hidden="true">
 									<?php wakimoto_array_motif(); ?>
-									<span class="biz-card__ph-label">PHOTO</span>
+									<span class="screen-reader-text"><?php echo esc_html( $b_title ); ?></span>
 								</span>
 							<?php endif; ?>
 							<span class="biz-card__no">0<?php echo (int) $i; ?></span>
