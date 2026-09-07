@@ -1,3 +1,4 @@
+# Production deployment configuration
 [build]
   base = "wakimotocorp-site"
   publish = "."
